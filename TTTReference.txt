@@ -1,0 +1,546 @@
+#Nonso Iwu
+#Tic Tac Toe
+
+import random
+import time
+
+grid = [" "," "," "," "," "," "," "," "," "]
+def opening():
+    """
+    -Prints the rules for TicTacToe
+    -Parameters: No parameters
+    -Returns: Nothing
+    """
+    print("~Welcome to TicTacToe~")
+    print()
+    print("You already know the rules of Tic-Tac-Toe but here is how you")
+    print("use the program:")
+    print("-You can quit the game at any point by typing 'quit' or reset") 
+    print(" it by typing 'reset' when you are asked 'Where will you mark?'.")
+    print()
+    print("-The grid is 3 by 3 with the rows(left to right) being a,b,and c")
+    print(" while the columns(up and down) are 1,2, and 3. So the top left is")
+    print(" 'a1', the middle right is 'b3' and so forth. Type these to mark")
+    print(" that spot with an 'X'.")
+    print()
+    print("Alrght, now let's play!")
+    print()
+    return
+
+def show_grid(grid):
+    """
+    -This function takes the grid which is a list and shows a tic tac toe
+    grid
+    -Parameters: grid, used to pin point "marks"(X or O), a list
+    -Returns: Nothing, prints the organized grid
+    """
+    a1=grid[0]
+    a2=grid[1]
+    a3=grid[2] 
+        
+    b1=grid[3]
+    b2=grid[4]
+    b3=grid[5]
+        
+    c1=grid[6]
+    c2=grid[7]
+    c3=grid[8]
+
+    print(" ------- ")
+    print("| "+a1+" "+a2+" "+a3+" |")
+    print("| "+b1+" "+b2+" "+b3+" |")
+    print("| "+c1+" "+c2+" "+c3+" |")
+    print(" ------- ")
+
+def ask_mark(grid):
+    """
+    -This function is for the player to input a "mark"(X)
+    -Alters grid
+    -Parameters: grid, a list
+    -Returns: new_grid, a replacement list
+    """
+    new_grid=grid
+    ask = input("Where will you mark?: ")
+    while ask!=None:
+        if ask == "a1":
+            if new_grid[0] == " ":
+                new_grid[0] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "a2":
+            if new_grid[1] == " ":
+                new_grid[1] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "a3":
+            if new_grid[2] == " ":
+                new_grid[2] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "b1":
+            if new_grid[3] == " ":
+                new_grid[3] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "b2":
+            if new_grid[4] == " ":
+                new_grid[4] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "b3":
+            if new_grid[5] == " ":
+                new_grid[5] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "c1":
+            if new_grid[6] == " ":
+                new_grid[6] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "c2":
+            if new_grid[7] == " ":
+                new_grid[7] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask == "c3":
+            if new_grid[8] == " ":
+                new_grid[8] = "X"
+                return new_grid
+            ask = input("Slot is already filled. Try again: ")
+        elif ask=="quit":
+            print("Thank for playing!")
+            return "quit"
+        elif ask=="reset":
+            return "reset"
+        else:
+            ask = input("Sorry, slot not recognized. Try again: ")
+    if ask == None:
+        ask_mark(grid)
+
+def AI_override(grid):
+    """
+    -This helper function will cause the computer playing to try to win
+    -Parameters: grid, a list
+    -Returns: a change to the list grid that will cause the computer to
+              change the mark they put in the function computer_mark()
+    """
+    new_grid = grid
+    a1=new_grid[0]
+    a2=new_grid[1]
+    a3=new_grid[2] 
+        
+    b1=new_grid[3]
+    b2=new_grid[4]
+    b3=new_grid[5]
+        
+    c1=new_grid[6]
+    c2=new_grid[7]
+    c3=new_grid[8]
+
+    row_a = new_grid[0:3]
+    row_b = new_grid[3:6]
+    row_c = new_grid[6:]
+
+    column_1 = list(a1+b1+c1)
+    column_2 = list(a2+b2+c2)
+    column_3 = list(a3+b3+c3)
+
+    diagonal_l2r = list(a1+b2+c3)
+    diagonal_r2l = list(c1+b2+a3)
+    
+    if row_a == ["O","O"," "] or row_a == ["O"," ","O"] or row_a == [" ","O","O"]:
+        new_grid[0:3] = ["O","O","O"]
+        return new_grid
+    elif row_b == ["O","O"," "] or row_b == ["O"," ","O"] or row_b == [" ","O","O"]:
+        new_grid[3:6] = ["O","O","O"]
+        return new_grid
+    elif row_c == ["O","O"," "] or row_c == ["O"," ","O"] or row_c == [" ","O","O"]:
+        new_grid[6:] = ["O","O","O"]
+        return new_grid
+    
+    elif column_1 == ["O","O"," "]:
+        new_grid[6] = "O"
+        return new_grid
+    elif column_1 == ["O"," ","O"]:
+        new_grid[3] = "O"
+        return new_grid
+    elif column_1 == [" ","O","O"]:
+        new_grid[0] = "O"
+        return new_grid
+    
+    elif column_2 == ["O","O"," "]:
+        new_grid[7] = "O"
+        return new_grid
+    elif column_2 == ["O"," ","O"]:
+        new_grid[4] = "O"
+        return new_grid
+    elif column_2 == [" ","O","O"]:
+        new_grid[1] = "O"
+        return new_grid
+
+    elif column_3 == ["O","O"," "]:
+        new_grid[8] = "O"
+        return new_grid
+    elif column_3 == ["O"," ","O"]:
+        new_grid[5] = "O"
+        return new_grid
+    elif column_3 == [" ","O","O"]:
+        new_grid[2] = "O"
+        return new_grid
+
+    elif diagonal_l2r == ["O","O"," "]:
+        new_grid[8] = "O"
+        return new_grid
+    elif diagonal_l2r == ["O"," ","O"]:
+        new_grid[4] = "O"
+        return new_grid
+    elif diagonal_l2r == [" ","O","O"]:
+        new_grid[0] = "O"
+        return new_grid
+
+    elif diagonal_r2l == ["O","O"," "]:
+        new_grid[2] = "O"
+        return new_grid
+    elif diagonal_r2l == ["O"," ","O"]:
+        new_grid[4] = "O"
+        return new_grid
+    elif diagonal_r2l == [" ","O","O"]:
+        new_grid[6] = "O"
+        return new_grid
+    
+    else:
+        return False
+
+def AI_defense(grid):
+    """
+    -This helper function marks the grid to prevent the player's victory
+    -Parameters: grid, a list
+    -Returns: a change to the list grid that will cause the computer to
+              change the mark they put in the function computer_mark()
+    """
+    new_grid = grid
+    a1=new_grid[0]
+    a2=new_grid[1]
+    a3=new_grid[2] 
+        
+    b1=new_grid[3]
+    b2=new_grid[4]
+    b3=new_grid[5]
+        
+    c1=new_grid[6]
+    c2=new_grid[7]
+    c3=new_grid[8]
+
+    row_a = new_grid[0:3]
+    row_b = new_grid[3:6]
+    row_c = new_grid[6:]
+
+    column_1 = list(a1+b1+c1)
+    column_2 = list(a2+b2+c2)
+    column_3 = list(a3+b3+c3)
+
+    diagonal_l2r = list(a1+b2+c3)
+    diagonal_r2l = list(c1+b2+a3)
+    
+    if row_a == ["X","X"," "]:
+        new_grid[0:3] = ["X","X","O"]
+        return new_grid
+    elif row_a == ["X"," ","X"]:
+        new_grid[0:3] = ["X","O","X"]
+        return new_grid
+    elif row_a == [" ","X","X"]:
+        new_grid[0:3] = ["O","X","X"]
+        return new_grid
+        
+    elif row_b == ["X","X"," "]:
+        new_grid[3:6] = ["X","X","O"]
+        return new_grid
+    elif row_b == ["X"," ","X"]:
+        new_grid[3:6] = ["X","O","X"]
+        return new_grid
+    elif row_b == [" ","X","X"]:
+        new_grid[3:6] = ["O","X","X"]
+        return new_grid
+        
+    elif row_c == ["X","X"," "]:
+        new_grid[6:] = ["X","X","O"]
+        return new_grid
+    elif row_c == ["X"," ","X"]:
+        new_grid[6:] = ["X","O","X"]
+        return new_grid
+    elif row_c == [" ","X","X"]:
+        new_grid[6:] = ["O","X","X"]
+        return new_grid
+    
+    elif column_1 == ["X","X"," "]:
+        new_grid[6] = "O"
+        return new_grid
+    elif column_1 == ["X"," ","X"]:
+        new_grid[3] = "O"
+        return new_grid
+    elif column_1 == [" ","X","X"]:
+        new_grid[0] = "O"
+        return new_grid
+    
+    elif column_2 == ["X","X"," "]:
+        new_grid[7] = "O"
+        return new_grid
+    elif column_2 == ["X"," ","X"]:
+        new_grid[4] = "O"
+        return new_grid
+    elif column_2 == [" ","X","X"]:
+        new_grid[1] = "O"
+        return new_grid
+
+    elif column_3 == ["X","X"," "]:
+        new_grid[8] = "O"
+        return new_grid
+    elif column_3 == ["X"," ","X"]:
+        new_grid[5] = "O"
+        return new_grid
+    elif column_3 == [" ","X","X"]:
+        new_grid[2] = "O"
+        return new_grid
+
+    elif diagonal_l2r == ["X","X"," "]:
+        new_grid[8] = "O"
+        return new_grid
+    elif diagonal_l2r == ["X"," ","X"]:
+        new_grid[4] = "O"
+        return new_grid
+    elif diagonal_l2r == [" ","X","X"]:
+        new_grid[0] = "O"
+        return new_grid
+
+    elif diagonal_r2l == ["X","X"," "]:
+        new_grid[2] = "O"
+        return new_grid
+    elif diagonal_r2l == ["X"," ","X"]:
+        new_grid[4] = "O"
+        return new_grid
+    elif diagonal_r2l == [" ","X","X"]:
+        new_grid[6] = "O"
+        return new_grid
+    
+    else:
+        return False
+    return
+
+def computer_mark(grid):
+    """
+    -This marks the grid for the computer player with an "O"
+    -Parameters: grid, a list
+    -Returns: new_grid, a list with an "O"
+    """
+    AI_override_grid = AI_override(grid)
+    if AI_override_grid != False:
+        return AI_override_grid
+    
+    AI_defense_grid = AI_defense(grid)
+    if AI_defense_grid != False:
+        return AI_defense_grid
+    
+    mark = random.randint(0,8)
+    new_grid = grid
+    if (" " in grid) == True:
+        while mark >= 0 and mark <= 8:
+            if mark == 0:
+                if grid[0] == " ":
+                    new_grid[0] = "O"
+                    return new_grid
+            elif mark == 1:
+                if grid[1] == " ":
+                    new_grid[1] = "O"
+                    return new_grid
+            elif mark == 2:
+                if grid[2] == " ":
+                    new_grid[2] = "O"
+                    return new_grid
+            elif mark == 3:
+                if grid[3] == " ":
+                    new_grid[3] = "O"
+                    return new_grid
+            elif mark == 4:
+                if grid[4] == " ":
+                    new_grid[4] = "O"
+                    return new_grid
+            elif mark == 5:
+                if grid[5] == " ":
+                    new_grid[5] = "O"
+                    return new_grid
+            elif mark == 6:
+                if grid[6] == " ":
+                    new_grid[6] = "O"
+                    return new_grid
+            elif mark == 7:
+                if grid[7] == " ":
+                    new_grid[7] = "O"
+                    return new_grid
+            elif mark == 8:
+                if grid[8] == " ":
+                    new_grid[8] = "O"
+                    return new_grid
+            mark = random.randint(0,8)
+        
+    elif (" " in grid) == False:
+        return new_grid
+
+def player_win(grid):
+    """
+    -This function see's if the player won the game
+    -Parameters: grid, a list
+    -Returns: True if the player put down 3 X's in a row, False otherwise
+    """
+    a1=grid[0]
+    a2=grid[1]
+    a3=grid[2] 
+        
+    b1=grid[3]
+    b2=grid[4]
+    b3=grid[5]
+        
+    c1=grid[6]
+    c2=grid[7]
+    c3=grid[8]
+
+    if a1 == "X" and b1 == "X" and c1 == "X":
+        return True
+    elif a2 == "X" and b2 == "X" and c2 == "X":
+        return True
+    elif a3 == "X" and b3 == "X" and c3 == "X":
+        return True
+    elif a1 == "X" and a2 == "X" and a3 == "X":
+        return True
+    elif b1 == "X" and b2 == "X" and b3 == "X":
+        return True
+    elif c1 == "X" and c2 == "X" and c3 == "X":
+        return True
+    elif a1 == "X" and b2 == "X" and c3 == "X":
+        return True
+    elif a3 == "X" and b2 == "X" and c1 == "X":
+        return True
+    else:
+        return False
+
+def computer_win(grid):
+    """
+    -This function see's if the computer player won the game
+    -Parameters: grid, a list
+    -Returns: True if the computer put down 3 O's in a row
+    """
+    a1=grid[0]
+    a2=grid[1]
+    a3=grid[2] 
+        
+    b1=grid[3]
+    b2=grid[4]
+    b3=grid[5]
+        
+    c1=grid[6]
+    c2=grid[7]
+    c3=grid[8]
+
+    if a1 == "O" and b1 == "O" and c1 == "O":
+        return True
+    elif a2 == "O" and b2 == "O" and c2 == "O":
+        return True
+    elif a3 == "O" and b3 == "O" and c3 == "O":
+        return True
+    elif a1 == "O" and a2 == "O" and a3 == "O":
+        return True
+    elif b1 == "O" and b2 == "O" and b3 == "O":
+        return True
+    elif c1 == "O" and c2 == "O" and c3 == "O":
+        return True
+    elif a1 == "O" and b2 == "O" and c3 == "O":
+        return True
+    elif a3 == "O" and b2 == "O" and c1 == "O":
+        return True
+    else:
+        return False
+
+def clear_grid(grid):
+    """
+    -Clears the grid
+    -Parameters: grid, a list
+    -Returns: a clear grid with only spaces
+    """
+    new_grid = grid
+    new_grid = [" "," "," "," "," "," "," "," "," "]
+    return new_grid
+
+def keep_playing():
+    """
+    -Asks the player if they want to keep playing
+    -Parameters: No parameters
+    -Returns: True if input y or False if n
+    """
+    keep_playing = input("Would you like to keep playing?(y/n)")
+    while keep_playing != None:
+        if keep_playing == "y":
+            return True
+        elif keep_playing == "n":
+            return False
+        else:
+            keep_playing = input("Please input 'y' for yes or 'n' for no:")
+
+def TicTacToe():        
+    grid = [" "," "," "," "," "," "," "," "," "]
+    #This is the tic-tac-toe grid
+    opening()
+    time.sleep(1.5)
+    play = True
+    while play == True:
+        show_grid(grid)
+        grid = ask_mark(grid)
+        if grid == "quit":
+            print("Some other time?")
+            break
+        elif grid == "reset":
+            print("Game reseted")
+            print()
+            grid = clear_grid(grid)
+            continue
+        show_grid(grid)
+        win = player_win(grid)
+        if win == True:
+            print("You won! Good Job!")
+            print()
+            play = keep_playing()
+            if play == True:
+                print()
+                grid = clear_grid(grid)
+                continue
+            elif play == False:
+                print("Thanks for playing!")
+                break
+        
+        grid = computer_mark(grid)
+        cpu_win = computer_win(grid)
+        if cpu_win == True:
+            print("Computer is deciding...")
+            time.sleep(1.5)
+            show_grid(grid)
+            print("Game Over. You lost...")
+            play = keep_playing()
+            if play == True:
+                print()
+                grid = clear_grid(grid)
+                continue
+            elif play == False:
+                break
+        if (" " in grid) == False:
+            print("Game Over.")
+            print()
+            play = keep_playing()
+            if play == True:
+                print()
+                grid = clear_grid(grid)
+                continue
+            elif play == False:
+                print("Thanks for playing!")
+                break
+        print("Computer is deciding...")
+        time.sleep(1.5)
+        show_grid(grid)
+        print()
