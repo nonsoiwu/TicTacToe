@@ -1,5 +1,7 @@
 package model;
 
+import model.Board;
+
 public class Game {
 	Board board;
 	boolean AI;
