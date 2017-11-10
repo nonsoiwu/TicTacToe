@@ -2,18 +2,18 @@ package view;
 
 import model.Game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-
 import javax.swing.JFrame;
 
-public class GameView extends JFrame implements ActionListener, MouseMotionListener{
+/**
+ * Main 'view' class for the game TicTacToe game
+ * <p>
+ * Utilizes javax.swing.JFrame
+ * @author Nonso Iwu
+ * @see JFrame
+ *
+ */
+public class GameView extends JFrame{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	//Dimensions
@@ -21,11 +21,6 @@ public class GameView extends JFrame implements ActionListener, MouseMotionListe
 	final static int frameHeight = 800;
 	
 	public GameView(){
-		gameSequence();
-	}
-	
-	public void gameSequence(){
-		
 	}
 	
 	public void loadOpening(){
@@ -47,23 +42,4 @@ public class GameView extends JFrame implements ActionListener, MouseMotionListe
 	public void loadGame(Game ttt){
 		
 	}
-	
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
