@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Scanner;
+
 public class Board {
 	final int size;
 	char p1;
@@ -61,11 +63,47 @@ public class Board {
 	 *  x | x | x 
 	 */
 	public String toString(){
-		String display = ".";
-		StringBuilder sb = new StringBuilder();
+		String line = "";
+		for(int i=0; i<size;i++){
+			line+="  ";
+			if(i<size-1){
+				line+="|";
+			}
+		}
 		
+		String border = "";
+		for(int i=0; i<size;i++){
+			border+="---";
+			if(i<size-1){
+				border+="-";
+			}
+		}
+		border+="\n";
 		
-		return display;
+		StringBuilder sbRow = new StringBuilder(3*size+(size-1)+1);
+		sbRow.append(line);
+		StringBuilder sbGrid = new StringBuilder((2*size-1)*(3*size+(size-1)+1));
+		int count = 0;
+		for(int i=0;i<size;i++){
+			for(int j=0;j<size;j++){
+				if(board[count]==-1){
+					sbRow.insert(4*j+1,' ');
+				}else if(board[count]==0){
+					sbRow.insert(4*j+1,p1);
+				}else{
+					sbRow.insert(4*j+1,p2);
+				}
+				count++;
+			}
+			sbRow.append('\n');
+			sbGrid.append(sbRow);
+			if(i<size-1){
+				sbGrid.append(border);
+			}
+			sbRow = new StringBuilder(3*size+(size-1)+1);
+			sbRow.append(line);
+		}
+		return sbGrid.toString();
 	}
 	
 	/**
@@ -79,8 +117,49 @@ public class Board {
 		}
 	}
 	
-	public int askMark(){
-		return -1;
+	public int acquireMark(){
+		String rows = "abcde".substring(0, size);
+		String numbers = "12345".substring(0,size);
+		int state = 0;
+		
+		System.out.println("Where will you mark? "+"(Rows:"+rows+" and Columns:"+numbers+" in the form of 'a2')");
+		Scanner scanner = new Scanner(System.in);
+
+		while(true){
+			String input = scanner.nextLine();
+			if(!input.matches("["+rows+"]["+numbers+"]")){
+				state = 1;
+			}else{
+				if(!(board[size*(rows.indexOf(input.charAt(0)))+numbers.indexOf(input.charAt(1))]==-1)){
+					state = 2;
+				}
+			}
+			switch(state){
+				case 0:
+					scanner.close();
+					return size*(rows.indexOf(input.charAt(0)))+numbers.indexOf(input.charAt(1));
+				case 1:
+					System.out.println("That is not a valid input.");
+					state = 0;
+					break;
+				case 2:
+					System.out.println("That slot is already filled.");
+					state = 0;
+					break;
+			}
+		}
+	}
+	
+	public int AIMark(){
+		return 0;
+	}
+	
+	public int AIDefenseMark(){
+		return 0;
+	}
+	
+	public int AIWinMark(){
+		return 0;
 	}
 
 	/**
