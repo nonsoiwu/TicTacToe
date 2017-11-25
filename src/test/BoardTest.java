@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.Board;
+import model.Player;
 
 public class BoardTest {
 
@@ -28,11 +29,10 @@ public class BoardTest {
 	public void tearDown() throws Exception {
 	}
 
-	Board bTest = new Board();
+	Board bTest = Board.getBoard(new Player(),new Player());
 	@Test
 	public void test() {
 		System.out.println(bTest.toString());
-		bTest.acquireMark();
 	}
 
 }
