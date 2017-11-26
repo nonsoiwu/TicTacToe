@@ -20,29 +20,37 @@ public class CPUPlayer extends Player{
 		}
 		
 		int state = 0;
+		int index = 0;
 		Random rand = new Random();
 		while(true){
 			switch(state){
 				case 0:
-					int index = rand.nextInt((b.size*b.size)-1);
+					index = rand.nextInt((b.size*b.size));
 					if(b.board[index]<0){
 						state = 2;
+						System.out.println(index);
 					}
+					break;
 				case 1:
-					state = 1;
+					state = 0;
+					break;
 				case 2:
-					return 0;
+					return index;
 			}
 		}
 	}
 	
 	private int AIDefenseMark(){
 		//returns -1 if there is no place to mark that will stop the player from winning
-		return 0;
+		return -1;
 	}
 	
 	private int AIWinMark(){
 		//returns -1 if there is no place to mark that will allow the player to win.
-		return 0;
+		return -1;
+	}
+	
+	public String playerWon() {
+		return "Congrrrrratualtionzzz bzzt "+name+". Opt-t-timal outcome achieved bzzt.";
 	}
 }

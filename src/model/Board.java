@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Random;
-import java.util.Scanner;
-
 public class Board {
 	final int size;
 	char p1;
@@ -11,35 +8,35 @@ public class Board {
 				 //0 indicates a mark from player 1 and 1 indicates a mark from
 			  	 //player 2
 	
-//	/**
-//	 * Simple constructor for Board object
-//	 * <p>
-//	 * 'size' is defaulted to 3 for a standard tic-tac-toe game, 
-//	 * 'p1' is defaulted to x, 
-//	 * 'p2' is defaulted to o,  
-//	 */
-//	public Board(){
-//		size = 3;
-//		p1 = 'X';
-//		p2 = 'O';
-//		board = new int[size*size];
-//		fillBoard();
-//	}
-//	
-//	/**
-//	 * Custom constructor for Board class
-//	 * <p>
-//	 * 'p1' is defaulted to x, 
-//	 * 'p2' is defaulted to o,  
-//	 * @param s int, value is set to size
-//	 */
-//	public Board(int s){
-//		size = s;
-//		p1 = 'X';
-//		p2 = 'O';
-//		board = new int[size*size];
-//		fillBoard();
-//	}
+	/**
+	 * Simple constructor for Board object
+	 * <p>
+	 * 'size' is defaulted to 3 for a standard tic-tac-toe game, 
+	 * 'p1' is defaulted to x, 
+	 * 'p2' is defaulted to o,  
+	 */
+	public Board(){
+		size = 3;
+		p1 = 'X';
+		p2 = 'O';
+		board = new int[size*size];
+		fillBoard();
+	}
+	
+	/**
+	 * Custom constructor for Board class
+	 * <p>
+	 * 'p1' is defaulted to x, 
+	 * 'p2' is defaulted to o,  
+	 * @param s int, value is set to size
+	 */
+	public Board(int s){
+		size = s;
+		p1 = 'X';
+		p2 = 'O';
+		board = new int[size*size];
+		fillBoard();
+	}
 	
 	/**
 	 * Custom constructor for Board object
@@ -115,6 +112,18 @@ public class Board {
 		return sbGrid.toString();
 	}
 	
+	public String rawBoard() {
+		StringBuilder array = new StringBuilder();
+		array.append("[");
+		for(int s:board) {
+			array.append(s);
+			array.append(" ");
+		}
+		array.deleteCharAt(array.length()-1);
+		array.append("]");
+		return array.toString();
+	}
+	
 	/**
 	 * Fills the board with empty slots
 	 * <p>
@@ -126,8 +135,40 @@ public class Board {
 		}
 	}
 	
+	public boolean isFull(){
+		for(int slot:board) {
+			if(slot<0) return false;
+		}
+		return true;
+	}
+	
 	public void mark(int playerInt, int slot){
 		board[slot] = playerInt;
+	}
+	
+	private int markPriority(int mark){
+		boolean lDiagonal = false;
+		boolean rDiagonal = false;
+		
+		if(mark%size+1==0){
+			if(!(mark==0)||!(mark==((size*size)-1))){
+				lDiagonal = true;
+				System.out.println("ld true");
+			}				
+		}
+		if(mark%size-1==0){
+			rDiagonal = true;
+			System.out.println("rd true");
+		}
+		
+		if(lDiagonal&&rDiagonal) {
+			return 3;
+		}else if(rDiagonal){
+			return 2;
+		}else if(lDiagonal){
+			return 1;
+		}
+		return 0;
 	}
 	
 	/**
@@ -148,7 +189,7 @@ public class Board {
 		}
 		return check;
 	}
-	
+		
 	/**
 	 * Indicates whether a column has been completed and by which player. start specifies which column to start on in the array (column number - 1))
 	 * for example: for row 2, start would be 1
@@ -195,9 +236,9 @@ public class Board {
 	 * 		    <p> 1 : Player2 has completed the right diagonal </p>
 	 */
 	private int checkRDiagonal(){
-		int check = board[0];
+		int check = board[size*(size-1)];
 		for(int i=0;i<size;i++){
-			if((board[(i*size)+(size-1)]==-1)||(board[(i*size)+(size-1)]!=check)){
+			if((board[((size-1)+(i*(size-1)))]==-1||(board[((size-1)+(i*(size-1)))]!=check))){
 				return -1;
 			}
 		}
@@ -213,16 +254,31 @@ public class Board {
 	 */
 	public int checkWin(int mark){
 		int win = -1;
-		
-		for(int i=0;i<size;i++){
-			
+		int rowStart = ((mark)/size)*size;
+		int columnStart = mark%size;
+		System.out.println("Mark: "+mark+" Priority: "+markPriority(mark));
+		switch(markPriority(mark)){
+			case 0:
+				if((checkHorizontal(rowStart)>=0)||(checkVertical(columnStart)>=0)){
+					win = board[mark];
+				}
+				break;
+			case 1:
+				if((checkHorizontal(rowStart)>=0)||(checkVertical(columnStart)>=0)||(checkLDiagonal()>=0)){
+					win = board[mark];
+				}
+				break;
+			case 2:
+				if((checkHorizontal(rowStart)>=0)||(checkVertical(columnStart)>=0)||(checkRDiagonal()>=0)){
+					win = board[mark];
+				}
+				break;
+			case 3:
+				if((checkHorizontal(rowStart)>=0)||(checkVertical(columnStart)>=0)||(checkLDiagonal()>=0)||(checkRDiagonal()>=0)){
+					win = board[mark];
+				}
+				break;
 		}
-		
-		for(int i=0;i<size;i++){
-			
-		}
-
-			
 		return win;
 	}
 }

@@ -10,6 +10,8 @@ public class Game {
 	int turns = 0;
 	private static final Scanner scanner = new Scanner(System.in);
 	
+	public Game(){	}
+	
 	private Game(Player p1, Player p2){
 		turnManager[0] = p1;
 		turnManager[1] = p2;
@@ -85,13 +87,13 @@ public class Game {
 	public void chooseCharacters() {
 		System.out.println("Would you like to choose custom characters? (y or n)\n"
 				+ "(Choosing n results in default X and O)");
-		String answer = Game.inquire("[y/n]");
+		String answer = Game.inquire("[yn]");
 		if(answer.equals("n")){
 			turnManager[0].character = 'X';
 			turnManager[1].character = 'O';
 		}else if(answer.equals("y")){
 			for(Player p:turnManager){
-				System.out.println("Choose a character for "+p.name+": (1 character/Uppercase/Lowercase/Alphabet");
+				System.out.println("Choose a character for "+p.name+": (1 character/Uppercase/Lowercase/Alphabetical)");
 				p.character = Game.inquire("[a-zA-Z]").charAt(0);
 				System.out.println();
 			}
@@ -101,23 +103,92 @@ public class Game {
 		
 	public static void main(String[] args){
 		int gameState = 0;
+		int nextState = -1;
+		int index = -1;
+		int won = -1;
+		Game thisGame = new Game();
 		StringBank.opening();
 		
-		//Player chooses what type of game they want to play
-		Game thisGame = Game.getGame();
-		thisGame.chooseCharacters();
-		thisGame.board = Board.getBoard(thisGame.turnManager[0],thisGame.turnManager[1]);
-		System.out.println(thisGame.board.toString());
-		scanner.close();
 		while(true){
 			switch(gameState){
 				case 0:
+					//Player chooses what type of game they want to play
+					thisGame = Game.getGame();
+					nextState = 1;
+					break;
 				case 1:
+					thisGame.chooseCharacters();
+					nextState = 2;
+					break;
 				case 2:
+					thisGame.board = Board.getBoard(thisGame.turnManager[0],thisGame.turnManager[1]);
+					nextState = 3;
+					break;
 				case 3:
+					System.out.println(nextState);
+					//System.out.println(thisGame.board.toString());
+					try {
+						index = thisGame.turnManager[thisGame.turns%2].askMark(thisGame.board, scanner);
+					}catch(Exception e){
+						if(e instanceof ResetException){
+							nextState = 4;
+							break;
+						}else if(e instanceof QuitException){
+							nextState = 5;
+							break;
+						}
+					}
+					nextState = 6;
+					break;
 				case 4:
-				
+					thisGame.reset();
+					System.out.println("Game has been reset.");
+					nextState = 2;
+					break;
+				case 5:
+					System.out.println("Game has been terminated.\n");
+					nextState = 0;
+					break;
+				case 6:
+					System.out.println(nextState);
+					thisGame.board.mark(thisGame.turns%2, index);
+					System.out.println(thisGame.board.toString());
+					System.out.println(thisGame.board.rawBoard());
+					won = thisGame.board.checkWin(index);
+					if(won>=0){
+						nextState = 7;
+					}else{
+						if(!thisGame.board.isFull()){
+							nextState = 3;
+							thisGame.turns++;
+						}else{
+							nextState = 8;
+						}
+					}
+					break;
+				case 7:
+					//Some one Friggin won
+					System.out.println(thisGame.turnManager[thisGame.turns%2].playerWon());
+					nextState = 9;
+					break;
+				case 8:
+					//No one won
+					System.out.println("The board is full. No one won :(");
+					nextState = 9;
+					break;
+				case 9:
+					//Play Again
+					System.out.println("Would you like to play again? (y/n)");
+					String answer = Game.inquire("[yn]");
+					if(answer.equals("y")){
+						nextState = 2;
+						break;
+					}else if(answer.equals("n")){
+						nextState = 5;
+						break;
+					}
 			}
+			gameState = nextState;
 		}
 	}
 	
