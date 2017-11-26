@@ -56,9 +56,6 @@ public class Game {
 			}
 		}
 	}
-	public void gameOver() {
-		
-	}
 	
 	private void reset() {
 		turns=0;
@@ -126,6 +123,7 @@ public class Game {
 					break;
 				case 3:
 					System.out.println(nextState);
+					System.out.println(thisGame.board.toString());
 					//System.out.println(thisGame.board.toString());
 					try {
 						index = thisGame.turnManager[thisGame.turns%2].askMark(thisGame.board, scanner);

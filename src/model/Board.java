@@ -146,19 +146,17 @@ public class Board {
 		board[slot] = playerInt;
 	}
 	
-	private int markPriority(int mark){
+	public int markPriority(int mark){
 		boolean lDiagonal = false;
 		boolean rDiagonal = false;
 		
-		if(mark%size+1==0){
-			if(!(mark==0)||!(mark==((size*size)-1))){
-				lDiagonal = true;
-				System.out.println("ld true");
-			}				
+		if(mark%(size+1)==0){
+				lDiagonal = true;		
 		}
-		if(mark%size-1==0){
-			rDiagonal = true;
-			System.out.println("rd true");
+		if(mark%(size-1)==0){
+			if(!((mark==0)||(mark==((size*size)-1)))){
+				rDiagonal = true;
+			}
 		}
 		
 		if(lDiagonal&&rDiagonal) {
@@ -202,7 +200,7 @@ public class Board {
 	private int checkVertical(int start){
 		int check = board[start];
 		for(int i=0;i<size;i++){
-			if((board[i*size]==-1)||(board[i*size]!=check)){
+			if((board[start+(i*size)]==-1)||(board[start+(i*size)]!=check)){
 				return -1;
 			}
 		}
@@ -254,9 +252,11 @@ public class Board {
 	 */
 	public int checkWin(int mark){
 		int win = -1;
-		int rowStart = ((mark)/size)*size;
+		int rowStart = (mark/size)*size;
+		System.out.println("Row Start: "+rowStart);
 		int columnStart = mark%size;
-		System.out.println("Mark: "+mark+" Priority: "+markPriority(mark));
+		System.out.println("Column Start: "+columnStart);
+		System.out.println("Mark: "+mark+" Priority: "+markPriority(mark)+"\n");
 		switch(markPriority(mark)){
 			case 0:
 				if((checkHorizontal(rowStart)>=0)||(checkVertical(columnStart)>=0)){
