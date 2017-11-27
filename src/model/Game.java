@@ -5,6 +5,7 @@ import java.util.Scanner;
 import images.StringBank;
 
 public class Game {
+	/**This board */
 	Board board;
 	Player[] turnManager = new Player[2]; 
 	int turns = 0;
@@ -149,7 +150,11 @@ public class Game {
 					break;
 				case 6:
 					System.out.println(nextState);
-					thisGame.board.mark(thisGame.turns%2, index);
+					try {
+						thisGame.board.mark(thisGame.turns%2, index);
+					}catch(InvalidMarkException e) {
+						e.printStackTrace();
+					}
 					System.out.println(thisGame.board.toString());
 					System.out.println(thisGame.board.rawBoard());
 					won = thisGame.board.checkWin(index);
