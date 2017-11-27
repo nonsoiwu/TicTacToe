@@ -18,7 +18,7 @@ public class Player {
 	
 	/**
 	 * This is a mock {@code Player} constructor. {@code name} is set to
-	 * mock and {@code character} is set to m. Used for testing. Not useful for
+	 * "mock" and {@code character} is set to 'm'. Used for testing. Not useful for
 	 * gameplay.
 	 */
 	public Player(){
@@ -49,6 +49,14 @@ public class Player {
 		}
 		
 	/**
+	 * Produces a string containing the player's name and character
+	 * @return A {@code String} representation of the Player
+	 */
+	public String toString() {
+		return name+", "+character;
+	}
+	
+	/**
 	 * Asks the {@code Player} for an input (through an Input Stream) and converts that to an int.
 	 * The input is two characters, the first alphabetical and the other numerical that show the
 	 *  rows and the column respectively.
@@ -64,20 +72,22 @@ public class Player {
 	public int askMark(Board board, Scanner scanner) throws QuitException, ResetException{
 		String rows = "abcde".substring(0, board.size); //Used to get the row input requirement
 		String columns = "12345".substring(0, board.size); //Used to get the column input requirement
+		String input;
 		int state = 0;
 		
 		System.out.println("Where will you mark? "+"(Rows:"+rows+" and Columns:"+columns+" in the form of 'a2')");
 
 		while(true){
-			String input = scanner.nextLine();
-			if(!input.matches("["+rows+"]["+columns+"]")){
-				state = 1;
-			}else if(input.matches("quit")){
+			input = scanner.nextLine();
+			
+			if(input.matches("quit")){
 				//Indicates that the player 'quit'
 				throw new QuitException();
 			}else if(input.matches("reset")){
 				//Indicates that the player 'reset'
 				throw new ResetException();
+			}else if(!(input.matches("["+rows+"]["+columns+"]"))){
+				state = 1;
 			}else{
 				//That value represents the slot that was chosen by the player
 				if(!(board.board[board.size*(rows.indexOf(input.charAt(0)))+columns.indexOf(input.charAt(1))]==-1)){

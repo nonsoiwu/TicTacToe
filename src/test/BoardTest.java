@@ -5,11 +5,43 @@ import org.junit.Test;
 
 import model.Board;
 import model.InvalidMarkException;
+import model.Player;
 
 public class BoardTest{
 	Board bTest3 = new Board();
 	Board bTest4 = new Board(4);
 	Board bTest5 = new Board(5);
+	
+	@Test
+	public void getBoardTest() {
+		Board gb = Board.getBoard(new Player(), new Player());
+		String grid = gb.toString();
+		String rawGrid = gb.rawBoard();
+		
+		String g3 = "   |   |   \n"
+				  + "-----------\n"
+				  + "   |   |   \n"
+				  + "-----------\n"
+				  + "   |   |   \n";
+		String g4 = "   |   |   |   \n"
+				  + "---------------\n"
+				  + "   |   |   |   \n"
+				  + "---------------\n"
+				  + "   |   |   |   \n"
+				  + "---------------\n"
+				  + "   |   |   |   \n";
+		String g5 = "   |   |   |   |   \n"
+				  + "-------------------\n"
+				  + "   |   |   |   |   \n"
+				  + "-------------------\n"
+				  + "   |   |   |   |   \n"
+				  + "-------------------\n"
+				  + "   |   |   |   |   \n"
+				  + "-------------------\n"
+				  + "   |   |   |   |   \n";
+		
+		assertEquals(((grid.equals(g3))||(grid.equals(g4))||(grid.equals(g5))),true);
+	}
 	
 	@Test
 	public void markTest() {

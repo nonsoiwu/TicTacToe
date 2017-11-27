@@ -8,15 +8,25 @@ import java.util.Scanner;
  * mark and celebrates victory to a different tune. Methods {@code askMark()} and 
  * {@code playerWon()} are polymorphic.
  * @author Nonso Iwu
- *
+ * @see Player
  */
 public class CPUPlayer extends Player{
+	
+	/**
+	 * This is a mock {@code CPUPlayer} constructor. {@code name} is set to
+	 * "watt" and {@code character} is set to 'w'. Used for testing. Not useful for
+	 * gameplay.
+	 */
+	public CPUPlayer() {
+		name = "watt";
+		character = 'w';
+	}
 	
 	/**
 	 * A custom {@code CPUPlayer} constructor
 	 * @param n A {@code String} whose value is set to name
 	 */
-	public CPUPlayer(String n) {
+	protected CPUPlayer(String n) {
 		name = n;
 	}
 	

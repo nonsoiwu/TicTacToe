@@ -75,19 +75,18 @@ public class Board {
 	 * @return a Board based on the answer and players
 	 */
 	public static Board getBoard(Player p1,Player p2){
-		int boardSize;
 		System.out.println("Choose a size for the board: 3,4, or 5");
-		boardSize = Integer.valueOf(Game.inquire("[3-5]"));
+		int boardSize = Integer.valueOf(Game.inquire("[3-5]"));
 		
 		return new Board(boardSize,p1.character,p2.character);
 	}
 	
 	/**
-	 * Displays board in the style of a grid that resembles a Tic-Tac-Toe board
-	 *  x | x | x 
-	 * -----------
-	 *  x | x | x 
-	 * -----------
+	 * Displays board in the style of a grid that resembles a Tic-Tac-Toe board<br>
+	 *  x | x | x <br>
+	 * -----------<br>
+	 *  x | x | x <br>
+	 * -----------<br>
 	 *  x | x | x 
 	 *  @return a String representation of a Tic-Tac-Toe board
 	 */
@@ -314,7 +313,10 @@ public class Board {
 	
 	/**
 	 * Indicates whether the game has been completed (3,4, or 5 in a row) and who won
-	 * @param mark A value (between 0 and (size^2)-1) used to index into the board attribute
+	 * <p>Note: Instead of checking the entirety of the board everytime, total number of 
+	 * 			comparisons are reduced by only checking the necessary rows/columns/diagonals
+	 * @param mark An {@code int} value (between 0 and (size^2)-1) used to index into the 
+	 * 			board attribute
 	 * @return 	-1 : Neither player has completed the Board
 	 * 		    <p> 0 : Player1 has completed the Board
 	 * 		    <p> 1 : Player2 has completed the Board
