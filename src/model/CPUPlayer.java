@@ -61,7 +61,6 @@ public class CPUPlayer extends Player{
 					index = rand.nextInt((b.size*b.size));
 					if(b.board[index]<0){
 						state = 2;
-						System.out.println(index);
 					}
 					break;
 				case 1:

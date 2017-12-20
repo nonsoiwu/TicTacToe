@@ -27,7 +27,7 @@ public class Board {
 	/**
 	 * Simple constructor for Board object
 	 * <p>
-	 * 'size' is defaulted to 3 for a standard tic-tac-toe game, 
+	 * 'size' is defaulted to 3 for a standard Tic-Tac-Toe game, 
 	 * 'p1' is defaulted to X, 
 	 * 'p2' is defaulted to O,  
 	 */

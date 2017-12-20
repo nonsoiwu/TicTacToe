@@ -16,7 +16,6 @@ public class BoardTest{
 	public void getBoardTest() {
 		Board gb = Board.getBoard(new Player(), new Player());
 		String grid = gb.toString();
-		String rawGrid = gb.rawBoard();
 		
 		String g3 = "   |   |   \n"
 				  + "-----------\n"
