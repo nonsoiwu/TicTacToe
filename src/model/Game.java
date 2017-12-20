@@ -48,7 +48,7 @@ public class Game {
 	 */
 	private Game(boolean AIans){
 		if(AIans) {
-			turnManager[0] = Player.getPlayer("CPU1", true);
+			turnManager[0] = Player.getPlayer("CPU 1", true);
 			turnManager[1] = Player.getPlayer("CPU 2",true);
 			return;
 		}
@@ -186,7 +186,7 @@ public class Game {
 					System.out.println(thisGame.board.toString());
 					System.out.println(thisGame.turnManager[thisGame.turns%2].name+"'s turn!");
 					try {
-						index = thisGame.turnManager[thisGame.turns%2].askMark(thisGame.board, scanner);
+						index = thisGame.turnManager[thisGame.turns%2].askMark(thisGame.board, scanner, thisGame.turns%2);
 					}catch(Exception e){
 						if(e instanceof ResetException){
 							nextState = 4;
@@ -212,6 +212,7 @@ public class Game {
 				case 6:
 					//The Player marks the board
 					try {
+						System.out.println(index);
 						thisGame.board.mark(thisGame.turns%2, index);
 					}catch(InvalidMarkException e) {
 						e.printStackTrace();
@@ -244,7 +245,7 @@ public class Game {
 					System.out.println("Would you like to play again? (y/n)");
 					String answer = Game.inquire("[yn]");
 					if(answer.equals("y")){
-						nextState = 2;
+						nextState = 4;
 						break;
 					}else if(answer.equals("n")){
 						nextState = 5;

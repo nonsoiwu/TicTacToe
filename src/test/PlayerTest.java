@@ -44,7 +44,7 @@ public class PlayerTest {
 		int mark = -1;
 		boolean eCaught = false;
 		try {
-			mark = mock.askMark(b, new Scanner(System.in));
+			mark = mock.askMark(b, new Scanner(System.in),0);
 		}catch(Exception e){
 			eCaught = true;
 			if(e instanceof QuitException){

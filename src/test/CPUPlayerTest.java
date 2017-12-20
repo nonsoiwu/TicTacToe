@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import model.Board;
 import model.CPUPlayer;
+import model.InvalidMarkException;
 
 public class CPUPlayerTest {
 	
@@ -27,14 +28,32 @@ public class CPUPlayerTest {
 
 	@Test
 	public void askMarkTest() {
-		Board b = new Board(); //the board's size is 3
-		int size = 3;
-		int randomMark = cpu.askMark(b, new Scanner(System.in));
+		int size = 3; //The board's size is 3
+		int playerInt = 0; //This means that the player is player 1
+		int randomMark = cpu.askMark(b, new Scanner(System.in),playerInt);
 		
 		assertEquals(randomMark>=0&&randomMark<(size*size),true);
 		assertEquals(randomMark<0&&randomMark>=(size*size),false);
 		
-		//int smartMark = 0;
+		//Test for AIDefenseMark
+		try {
+			b.mark(1, 0);
+			b.mark(1, 6);
+		}catch(InvalidMarkException e) {
+			
+		}
+		
+		assertEquals(cpu.askMark(b, new Scanner(System.in), playerInt),3);
+		
+		//Test for AIWinMark
+		try {
+			b.mark(0, 2);
+			b.mark(0, 8);
+		}catch(InvalidMarkException e) {
+			
+		}
+		
+		assertEquals(cpu.askMark(b, new Scanner(System.in), playerInt),5);
 	}
 	
 	@Test

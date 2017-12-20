@@ -64,12 +64,13 @@ public class Player {
 	 * to choose the second slot on the first row, the input would be 'a2'.
 	 * @param board The {@code Player}'s options for an answer are limited based on this {@code Board}
 	 * @param scanner This has to be a scanner without its {@code close()} method acted on it
+	 * @param PlayerInt An {@code int} associated with the {@code Player}
 	 * @return An {@code int} that changes a correct input into an index used by the {@code board}
 	 * 		   attribute in the {@code Board} class
 	 * @throws QuitException Thrown if quit is passed as an input
 	 * @throws ResetException Thrown if reset is passed as an input
 	 */
-	public int askMark(Board board, Scanner scanner) throws QuitException, ResetException{
+	public int askMark(Board board, Scanner scanner, int PlayerInt) throws QuitException, ResetException{
 		String rows = "abcde".substring(0, board.size); //Used to get the row input requirement
 		String columns = "12345".substring(0, board.size); //Used to get the column input requirement
 		String input;
